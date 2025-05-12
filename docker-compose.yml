@@ -1,0 +1,30 @@
+services:
+
+  backend:
+    container_name: "scanner_backend"
+    hostname: "backend"
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+#    command: python -m app
+    volumes:
+      - "./app:/opt/app:ro"
+    ports:
+      - "8000:80"
+    env_file:
+      - ".env"
+    depends_on:
+      db:
+         condition: service_healthy
+
+  db:
+    image: postgres:16.7-alpine3.20
+    container_name: "check_pricers_db"
+    hostname: ${POSTGRES_HOST}
+    env_file:
+      - ".env"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
+      timeout: 10s
+      interval: 10s
+      retries: 10
