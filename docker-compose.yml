@@ -20,7 +20,7 @@ services:
   db:
     image: postgres:16.7-alpine3.20
     container_name: "scanner_db"
-#    hostname: "scanner_db"
+    hostname: "scanner_db"
     env_file:
       - ".env"
     environment:
