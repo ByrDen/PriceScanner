@@ -9,6 +9,7 @@ class InputSchema(BaseModel):
 
 
 class ResponseSchema(InputSchema):
-    id: int
+    ...
+
 
 

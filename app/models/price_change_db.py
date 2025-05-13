@@ -9,8 +9,7 @@ class PriceChange(Base):
     # Child
     __tablename__ = "price_changes"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    sku: Mapped[str] = mapped_column(String(9), unique=True)
+    sku: Mapped[str] = mapped_column(String(9), primary_key=True, autoincrement=False)
     old_price: Mapped[float | None] = mapped_column(Numeric(10, 2))
     new_price: Mapped[float | None] = mapped_column(Numeric(10, 2))
 
