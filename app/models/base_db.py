@@ -1,10 +1,17 @@
+import asyncio
+import sys
 from collections.abc import Sequence
 from contextvars import ContextVar
 from typing import Any, Self
 
 from sqlalchemy import Select, select
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, AsyncAttrs
 from sqlalchemy.orm import DeclarativeBase
+
+
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
 
 session_context: ContextVar[AsyncSession | None] = ContextVar("session", default=None)
 
@@ -23,11 +30,13 @@ class DBController:
     async def get_all(self, stmt: Select[Any]) -> Sequence[Any]:
         return (await self.session.execute(stmt)).scalars().all()
 
+    async def get_paginated(self, stmt: Select[Any], offset: int, limit: int) -> Sequence[Any]:
+        return await self.get_all(stmt.offset(offset).limit(limit))
 
 db: DBController = DBController()
 
 
-class Base(DeclarativeBase):
+class Base(AsyncAttrs, DeclarativeBase):
     __tablename__: str
 
     @classmethod
@@ -62,3 +71,11 @@ class Base(DeclarativeBase):
     @classmethod
     async def find_all_by_kwargs(cls, *order_by: Any, **kwargs: Any) -> Sequence[Self]:
         return await db.get_all(cls.select_by_kwargs(*order_by, **kwargs))
+
+    @classmethod
+    async def find_paginated_by_kwargs(cls, offset: int, limit: int, *order_by: Any, **kwargs: Any) -> Sequence[Self]:
+        return await db.get_paginated(
+            cls.select_by_kwargs(*order_by, **kwargs),
+            offset=offset,
+            limit=limit
+        )

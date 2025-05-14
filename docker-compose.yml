@@ -34,10 +34,17 @@ services:
 
   db:
     image: postgres:16.7-alpine3.20
-    container_name: "check_pricers_db"
-    hostname: ${POSTGRES_HOST}
+    container_name: "scanner_db"
+    hostname: "scanner_db"
     env_file:
       - ".env"
+    environment:
+      PGUSER: admin
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: admin
+    ports:
+      - "5432:5432"
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}" ]
       timeout: 10s
