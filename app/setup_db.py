@@ -1,7 +1,6 @@
-import asyncio
-import faulthandler
+# import asyncio
+# import faulthandler
 
-# import app.__main__
 from app.config import engine
 from app.models import Base
 
@@ -12,6 +11,6 @@ async def reinit_db() -> None:
         await conn.run_sync(Base.metadata.create_all)
 
 
-if __name__ == '__main__':
-    faulthandler.enable()
-    asyncio.run(reinit_db())
+# if __name__ == '__main__':
+#     faulthandler.enable()
+#     asyncio.run(reinit_db())

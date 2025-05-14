@@ -1,6 +1,4 @@
-import asyncio
-from collections.abc import Callable, Awaitable, AsyncIterator, Generator
-from contextlib import asynccontextmanager
+from collections.abc import Callable, Awaitable
 
 from fastapi import FastAPI
 from h11 import Request
@@ -14,13 +12,16 @@ from app.setup_db import reinit_db
 
 
 # @asynccontextmanager
-def lifespan(_: FastAPI):
-    asyncio.run(reinit_db())
+async def lifespan(_: FastAPI):
+    await reinit_db()
+    yield
+
+
 
 
 app = FastAPI(
     title="Scanner",
-    # lifespan=lifespan,
+    lifespan=lifespan,
 )
 
 
