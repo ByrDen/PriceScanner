@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 
-@router.post(path="/products/change/file/upload",status_code=201)
+@router.post(path="/changes/file/upload",status_code=201)
 async def upload_file_excel(
     file: UploadFile,
     clean_table: bool = False,
