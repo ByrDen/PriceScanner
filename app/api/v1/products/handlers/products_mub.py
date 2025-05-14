@@ -1,10 +1,12 @@
 from collections.abc import Sequence
+from http.client import HTTPException
 from typing import Annotated
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Path
 from fastapi.params import Query
 
 from app.api.v1.products.dependencies import ProductByBarcode, ProductResponses
+from app.models import PriceChange
 from app.models.product_db import Product
 
 router = APIRouter()
@@ -36,14 +38,25 @@ async def create_product(
 
 @router.get(
     path="/products/{barcode}/",
-    response_model=Product.ResponseSchema,
+    response_model=PriceChange.ResponseSchema,
     responses=ProductResponses.responses(),
     summary="Retrieve product by id",
 )
 async def retrieve_product(
-    product: ProductByBarcode,
+    barcode: Annotated[str, Path()]
+
+        # product: ProductByBarcode,
 ) -> Product:
-    return product
+    product, changes = await Product.find_first_by_barcode_with_price(barcode=barcode)
+    if product is None:
+        raise HTTPException(404)
+    return PriceChange.ResponseSchema(
+        sku=product.sku,
+        name=product.name,
+        old_price=changes.old_price,
+        new_price=changes.new_price
+    ).model_dump(mode='json')
+    # return product
 
 
 @router.patch(
