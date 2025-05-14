@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 
 class Config(BaseSettings):
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file="../.env",
         extra="ignore",
         case_sensitive=False,
     )
@@ -40,7 +40,7 @@ class Config(BaseSettings):
 
 
 config = Config()
-
+print(config.postgres_host)
 engine = create_async_engine(
     url=config.postgres_url,
     echo=config.postgres_echo,
