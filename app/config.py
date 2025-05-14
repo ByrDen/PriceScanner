@@ -17,7 +17,7 @@ class Config(BaseSettings):
     pguser: str = "admin"
     postgres_user: str = Field(default="admin", alias="POSTGRES_USER")
     postgres_password: str = Field(default="admin", alias="POSTGRES_PASSWORD")
-    postgres_host: str = Field(default="localhost:5432", alias="POSTGRES_HOST")
+    postgres_host: str = Field(default="scanner_db:5432", alias="POSTGRES_HOST")
     postgres_db: str = Field(default="admin", alias="POSTGRES_DB")
     postgres_echo: bool = True
 
