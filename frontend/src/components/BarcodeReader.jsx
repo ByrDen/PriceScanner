@@ -18,7 +18,7 @@ const BarcodeReader = () => {
             setError(null);
 
             try {
-                const response = await axios.get(`https:/admin.karlearr.com/api/v1/products/${code}`);
+                const response = await axios.get(`http:/admin.karlearr.com/api/v1/products/${code}`);
                 setProduct(response.data);
             } catch (e) {
                 if (e.response?.status === 404) {
