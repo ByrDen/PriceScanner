@@ -12,6 +12,7 @@ ENV \
 #COPY ./app $APP_PATH/app/req.txt
 COPY ./req.txt $APP_PATH/app/req.txt
 
+EXPOSE 8000
 
 RUN apk add build-base && \
     pip install --no-cache-dir --upgrade -r $APP_PATH/app/req.txt
