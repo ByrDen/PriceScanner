@@ -16,5 +16,4 @@ async def get_products_data_from_excel_file(file: UploadFile) -> dict[int, dict[
         na_filter=True,
     )
     res_dict = data_df.replace(np.nan, None).to_dict(orient="index")
-    print(res_dict)
     return res_dict
