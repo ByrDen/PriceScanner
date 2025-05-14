@@ -26,7 +26,7 @@ const BarcodeReader = () => {
                 if (e.response?.status === 404) {
                     setError("Товар не найден");
                 } else {
-                    setError("Ошибка при загрузке данных");
+                    setError(`${e}`);
                 }
             }
         }
