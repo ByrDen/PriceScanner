@@ -11,7 +11,7 @@ async def get_products_data_from_excel_file(file: UploadFile) -> dict[int, dict[
     data_df = pd.read_excel(    # noqa
         io_file,
         sheet_name=0,
-        # usecols="A:C",
+        usecols="A:C",
         dtype={"barcode": np.str_, "sku": np.str_, "name": np.str_},
         na_filter=True,
     )
