@@ -5,7 +5,7 @@ import pandas as pd
 from fastapi import UploadFile
 
 
-async def get_changes_price_data_from_excel_file(file: UploadFile) -> dict[int, dict[str, str | float]]:
+async def get_changes_price_data_from_excel_file(file: UploadFile) -> dict[int, dict[str, str | float]]: # problem: so slow
     io_file = file.file.read()
     BytesIO().read()
     end_df = pd.read_excel( # noqa
