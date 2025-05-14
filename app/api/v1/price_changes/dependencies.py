@@ -5,7 +5,7 @@ from app.models.base_db import db
 
 
 async def clean_price_change_table() -> None:
-    await db.session.execute(delete(PriceChange))
+    await db.session.execute(delete(PriceChange).table)
     await db.session.flush()
 
 
