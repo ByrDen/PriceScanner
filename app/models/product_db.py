@@ -3,7 +3,7 @@ from typing import Any, Self
 from sqlalchemy import String, ARRAY, UniqueConstraint, select, Row
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.models import PriceChange
+from app.models.price_change_db import PriceChange
 from app.schemas import product_schemas
 from app.models.base_db import Base, db
 
