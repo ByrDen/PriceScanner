@@ -1,8 +1,7 @@
 from collections.abc import Sequence
-from http.client import HTTPException
 from typing import Annotated
 
-from fastapi import APIRouter, Path
+from fastapi import APIRouter, Path, HTTPException
 from fastapi.params import Query
 
 from app.api.v1.products.dependencies import ProductByBarcode, ProductResponses
@@ -68,7 +67,7 @@ async def retrieve_product(
 async def patch_product(
     product: ProductByBarcode,
     patch_data: Product.PatchSchema,
-) -> Product:
+) -> PriceChange.ResponseSchema:
     product.update(**patch_data.model_dump(exclude_defaults=True))
     return product
 
