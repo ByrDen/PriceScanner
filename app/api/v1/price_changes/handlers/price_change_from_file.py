@@ -19,7 +19,7 @@ async def upload_file_excel(
     if file.filename.split(sep=".")[1] not in ["xlsx", "xls"]:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Incorrect type of file")
 
-    if clean_table is not None:
+    if clean_table:
         await clean_price_change_table()
 
     input_data = await get_changes_price_data_from_excel_file(file=file)
