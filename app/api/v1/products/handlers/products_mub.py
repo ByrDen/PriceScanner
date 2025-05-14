@@ -52,8 +52,8 @@ async def retrieve_product(
     return PriceChange.ResponseSchema(
         sku=product.sku,
         name=product.name,
-        old_price=changes.old_price,
-        new_price=changes.new_price
+        old_price=changes and changes.old_price,
+        new_price=changes and changes.new_price
     ).model_dump(mode='json')
     # return product
 
