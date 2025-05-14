@@ -19,7 +19,7 @@ services:
     build:
       context: .
       dockerfile: app/Dockerfile
-    command: python -m app
+    command: uvicorn app.__main__:app --host 0.0.0.0 --port 8000 --proxy-headers
     volumes:
       - "./app:/opt/app:ro"
     env_file:
