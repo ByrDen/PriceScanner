@@ -30,8 +30,10 @@ class Product(Base):
         return await db.get_first(stmt)
 
     @classmethod
-    async def find_first_by_barcode_with_price(cls, barcode: Any) -> tuple[Self, PriceChange] | None:
+    async def find_first_by_barcode_with_price(cls, barcode: Any) -> tuple[Self | None, PriceChange | None]:
         result = await cls.find_first_by_barcode(barcode=barcode)
+        if result is None:
+            return None, None
         stmt = select(PriceChange).filter(PriceChange.sku==result.sku)
         changes = await db.get_first(stmt=stmt)
         return result, changes
