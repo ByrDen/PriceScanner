@@ -1,3 +1,4 @@
+import asyncio
 from collections.abc import Callable, Awaitable, AsyncIterator, Generator
 from contextlib import asynccontextmanager
 
@@ -9,11 +10,12 @@ from starlette.responses import Response
 from app import api
 from app.models.base_db import session_context
 from app.config import sessionmaker
+from app.setup_db import reinit_db
 
 
 # @asynccontextmanager
-# def lifespan(_: FastAPI) -> Generator[None]:
-#     yield
+def lifespan(_: FastAPI):
+    asyncio.run(reinit_db())
 
 
 app = FastAPI(
