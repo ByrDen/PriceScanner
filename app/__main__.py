@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from h11 import Request
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import Response
+from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
 
 from app import api
 from app.models.base_db import session_context
@@ -32,6 +33,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.add_middleware(ProxyHeadersMiddleware)
 
 app.include_router(api.api_router)
 
