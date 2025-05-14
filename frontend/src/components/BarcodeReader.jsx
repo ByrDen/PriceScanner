@@ -20,6 +20,7 @@ const BarcodeReader = () => {
             try {
                 const response = await axios.get(`/api/v1/products/${code}`);
                 setProduct(response.data);
+                console.log(response.request.url)
             } catch (e) {
                 if (e.response?.status === 404) {
                     setError("Товар не найден");
