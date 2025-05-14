@@ -23,6 +23,8 @@ async def get_changes_price_data_from_excel_file(file: UploadFile) -> dict[int, 
         dtype={"sku": np.str_, "name": np.str_, "new_price": np.float64},
         na_filter=True
     )
+    print(start_df.to_dict(orient="index"))
     res_df = pd.merge(end_df, start_df, on=["sku"], how="outer").replace({np.nan : None})
+
     res_dict = res_df.to_dict(orient="index")
     return res_dict
