@@ -25,7 +25,13 @@ async def upload_file_excel(
     input_data = await get_changes_price_data_from_excel_file(file=file)
 
     for data in input_data.values():
-        db.session.add(PriceChange(**data))
+        db.session.add(
+            PriceChange(
+                sku=data["sku"],
+                old_price=data["old_price"],
+                new_price=data["new_price"],
+            )
+        )
     await db.session.flush()
 
     return {"result": "OK"}
